@@ -475,7 +475,7 @@ Cmis.utility = {
 
         // Variable %URL: URL of the page
         if (result.match(/%URL\b/)) {
-            var url = url_remove_protocol(document.URL);
+            let url = url_remove_protocol(document.URL);
 
             url = escape_fname(url);
 
