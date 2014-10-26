@@ -74,6 +74,8 @@ Cmis.menu = {
 
         let i = 0;
 
+        let prev_dir_index = Cmis.preferences.value("previousDirectoryIndex");
+
         while (i < items.length) {
             if (items[i].depth < depth[depth.length - 1]) {
                 parent.pop();
@@ -118,6 +120,16 @@ Cmis.menu = {
                         item.setAttribute("class", "menuitem-iconic");
                         item.setAttribute("image", "chrome://cmis/skin/error.png");
                     }
+                }
+
+                // Make the last used menu item bold
+                // FIXME: Use CSS instead of inline style
+                if (i === prev_dir_index) {
+                    let new_style = 'font-weight: bold;';
+                    let old_style = item.getAttribute("style");
+                    if (old_style)
+                        new_style = old_style + new_style;
+                    item.setAttribute("style", new_style);
                 }
             }
 

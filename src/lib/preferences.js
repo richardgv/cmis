@@ -40,6 +40,7 @@ Cmis.preferences = {
 
         Services.prefs.addObserver(PREFBRANCH + "directoryList", Cmis.menu, false);
         Services.prefs.addObserver(PREFBRANCH + "itemPlacement", Cmis.menu, false);
+        Services.prefs.addObserver(PREFBRANCH + "previousDirectoryIndex", Cmis.menu, false);
 
         Services.obs.addObserver(Cmis.preferences, "addon-options-displayed", false);
     },
@@ -47,6 +48,7 @@ Cmis.preferences = {
     shutdown: function() {
         Services.prefs.removeObserver(PREFBRANCH + "directoryList", Cmis.menu);
         Services.prefs.removeObserver(PREFBRANCH + "itemPlacement", Cmis.menu);
+        Services.prefs.removeObserver(PREFBRANCH + "previousDirectoryIndex", Cmis.menu);
 
         Services.obs.removeObserver(Cmis.preferences, "addon-options-displayed");
     },
