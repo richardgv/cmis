@@ -400,6 +400,30 @@ Cmis.utility = {
     },
 
     format: function(format, filename, source, alt) {
+        /**
+         * @brief Helper function to replace a variable reference with
+         *        value.
+         */
+        function replace_var(regex, value) {
+            result = result.replace(regex, value);
+        }
+
+        /**
+         * @brief Return the given URL with protocol part removed, if any.
+         */
+        function url_remove_protocol(url) {
+            return url.replace(/^\w+:\/\//, "");
+        }
+
+        /**
+         * @brief Escape a string for use in a filename.
+         *
+         * @todo escape other characters windows don't like: : ? "
+         */
+        function escape_fname(s) {
+            return s.replace(/[\\\/|*<>]/g, "_");
+        }
+
         // An empty format string should correspond to a %DEFAULT
         // variable, i.e., the original filename.
         if (format.length == 0)
@@ -420,14 +444,14 @@ Cmis.utility = {
 
         let result = Cmis.utility.date(format);
 
-        if (result.match(/%DEFAULT/))
-            result = result.replace(/%DEFAULT/g, filename);
+        // Variable %DEFAULT: Default filename
+        replace_var(/%DEFAULT\b/g, filename);
 
-        if (result.match(/%NAME/))
-            result = result.replace(/%NAME/g, name);
+        // Variable %NAME: Default filename w/o extension
+        replace_var(/%NAME\b/g, name);
 
-        if (result.match(/%EXT/))
-            result = result.replace(/%EXT/g, extension);
+        // Variable %EXT: Extension
+        replace_var(/%EXT\b/g, extension);
 
         if (result.match(/%ALT/)) {
             let gContextMenu = Services.ww.activeWindow.gContextMenu;
@@ -441,21 +465,26 @@ Cmis.utility = {
             result = result.replace(/%ALT/g, alt);
         }
 
-        if (result.match(/%HOST/))
-            result = result.replace(/%HOST/g, source.host);
+        // Variable %HOST: Hostname of source
+        replace_var(/%HOST\b/g, source.host);
 
         if (result.match(/%DOMAIN/)) {
             let domain = Services.eTLD.getBaseDomainFromHost(source.host)
             result = result.replace(/%DOMAIN/g, domain);
         }
 
-        if (result.match(/%URL/)) {
-            let [tmp, url] = document.URL.match(/:\/\/(.*)$/);
+        // Variable %URL: URL of the page
+        if (result.match(/%URL\b/)) {
+            var url = url_remove_protocol(document.URL);
 
-            url = url.replace(/\//g, "_");
+            url = escape_fname(url);
 
-            result = result.replace(/%URL/g, url);
+            result = result.replace(/%URL\b/g, url);
         }
+
+        // Variable %URL_SRC: URL of the source (image, typically)
+        replace_var(/%URL_SRC\b/g,
+                escape_fname(url_remove_protocol(source.spec)));
 
         if (result.match(/%TITLE/)) {
             let title = document.getElementsByTagName("title")[0].textContent || "no-title-text";
