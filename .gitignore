@@ -1,3 +1,7 @@
 screenshots
 icon
 *.xpi
+
+# Vim files
+*~
+.*.sw?

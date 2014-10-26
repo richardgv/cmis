@@ -8,7 +8,7 @@ install: zip
 	firefox $(XPI) &
 
 zip:
-	$(ZIP) -r $(XPI) bootstrap.js content/ lib/ locale/ skin/ chrome.manifest install.rdf ../ChangeLog ../LICENSE ../README
+	$(ZIP) -r $(XPI) bootstrap.js content/ lib/ locale/ skin/ chrome.manifest install.rdf ../ChangeLog ../LICENSE ../README -x '*~' '.*.sw?'
 
 clean:
 	-$(RM) $(XPI) > /dev/null 2>&1
