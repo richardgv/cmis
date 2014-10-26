@@ -136,10 +136,19 @@ Cmis.utility = {
             Services.prompt.BUTTON_POS_1 * Services.prompt.BUTTON_TITLE_IS_STRING  +
             Services.prompt.BUTTON_POS_2 * Services.prompt.BUTTON_TITLE_CANCEL;
 
+        // Get path of the parent directory
+        let path_parent_str = '(None)';
+        {
+            let path_parent = path.parent;
+            if (path_parent)
+                path_parent_str = path_parent.path;
+        }
+
         let button = Services.prompt.confirmEx(
             null,
             bundle.GetStringFromName("savePromptTitle"),
-            bundle.formatStringFromName("savePromptMessage", [path.leafName], 1),
+            bundle.formatStringFromName("savePromptMessage",
+                [ path.leafName, path_parent_str ], 2),
             flags,
             null,
             bundle.GetStringFromName("savePromptButton"),
