@@ -424,6 +424,17 @@ Cmis.utility = {
             return s.replace(/[\\\/|*<>]/g, "_");
         }
 
+        /**
+         * @brief Escape a string to be treated as a literal string within
+         *        a regular expression.
+         *
+         * Coutesy of:
+         * https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
+         */
+        function escape_regex(s) {
+            return s.replace(/([.*+?^${}()|\[\]\/\\])/g, "\\$1");
+        }
+
         // An empty format string should correspond to a %DEFAULT
         // variable, i.e., the original filename.
         if (format.length == 0)
@@ -498,6 +509,17 @@ Cmis.utility = {
                 text = "no-clipboard-text";
 
             result = result.replace(/%CLIPBOARD/g, text);
+        }
+
+        // Variable %EXT_SMART: ".%EXT", if there isn't another same one
+        // FIXME: Should we handle the (crazy) case of "%EXT_SMART%EXT_SMART"?
+        if (result.match(/%EXT_SMART\b/)) {
+            // FIXME: Unforunately JavaScript doesn't support case-insensitive
+            // matching in part of pattern
+            let r = new RegExp("(\\." + escape_regex(extension)
+                    + ")%EXT_SMART\\b", "g");
+            result = result.replace(r, "$1");
+            result = result.replace(/%EXT_SMART\b/, "." + extension);
         }
 
         return result;

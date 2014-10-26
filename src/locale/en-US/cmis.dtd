@@ -36,6 +36,7 @@
 <!ENTITY cmis.items.format.default "Default file name including extension, e.g., image.png, which is, &#37;NAME.&#37;EXT">
 <!ENTITY cmis.items.format.name "File name">
 <!ENTITY cmis.items.format.ext "File extension">
+<!ENTITY cmis.items.format.ext_smart ".&#37;EXT, if there isn't a same one preceding it: if &#37;EXT is 'png', 'example.png&#37;EXT_SMART' becomes 'example.png', 'example.jpg&#37;EXT_SMART' becomes 'example.jpg.png'">
 <!ENTITY cmis.items.format.date "ISO8601 style date string YYYY-MM-DD-hhmmss">
 <!ENTITY cmis.items.format.dateformat "A custom date string, e.g., &#37;DATE{YYYY-MM}. Use yy for abbreviated year">
 <!ENTITY cmis.items.format.alt "The &lt;IMG&gt; alt tag text (if it exists)">

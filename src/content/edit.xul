@@ -97,6 +97,11 @@
       </row>
 
       <row>
+        <hbox><label class="small" value="%EXT_SMART"/></hbox>
+        <hbox><label class="small" value="&cmis.items.format.ext_smart;" flex="1"/></hbox>
+      </row>
+
+      <row>
         <hbox><label class="small" value="%DATE"/></hbox>
         <hbox><label class="small" value="&cmis.items.format.date;" flex="1"/></hbox>
       </row>
