@@ -367,16 +367,17 @@ Cmis.utility = {
     },
 
     validate: function(name) {
-        name = name.replace(/[\/]+/g, "_");
+        name = name.replace(/\//g, "_");
         if (Services.appinfo.OS === "WINNT") {
-            name = name.replace(/[\\]+/g, "_");
-            name = name.replace(/[\:]+/g, "_");
-            name = name.replace(/[\*]+/g, "_");
-            name = name.replace(/[\?]+/g, "_");
-            name = name.replace(/[\"]+/g, "'");
-            name = name.replace(/[\<]+/g, "(");
-            name = name.replace(/[\>]+/g, ")");
-            name = name.replace(/[\|]+/g, "_");
+            name = name.replace(/\%/g, "%25");
+            name = name.replace(/\\/g, "%5C");
+            name = name.replace(/\:/g, "%3A");
+            name = name.replace(/\*/g, "%2A");
+            name = name.replace(/\?/g, "%3F");
+            name = name.replace(/\"/g, "%22");
+            name = name.replace(/\</g, "%3C");
+            name = name.replace(/\>/g, "%3E");
+            name = name.replace(/\|/g, "%7C");
         }
         return name;
     },
