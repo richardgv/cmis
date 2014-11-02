@@ -425,15 +425,6 @@ Cmis.utility = {
         }
 
         /**
-         * @brief Escape a string for use in a filename.
-         *
-         * @todo escape other characters windows don't like: : ? "
-         */
-        function escape_fname(s) {
-            return s.replace(/[\\\/|*<>]/g, "_");
-        }
-
-        /**
          * @brief Escape a string to be treated as a literal string within
          *        a regular expression.
          *
@@ -497,14 +488,12 @@ Cmis.utility = {
         if (result.match(/%URL\b/)) {
             let url = url_remove_protocol(document.URL);
 
-            url = escape_fname(url);
-
             result = result.replace(/%URL\b/g, url);
         }
 
         // Variable %URL_SRC: URL of the source (image, typically)
         replace_var(/%URL_SRC\b/g,
-                escape_fname(url_remove_protocol(source.spec)));
+                url_remove_protocol(source.spec));
 
         if (result.match(/%TITLE/)) {
             let title = document.getElementsByTagName("title")[0].textContent || "no-title-text";
