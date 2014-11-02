@@ -74,7 +74,11 @@ Cmis.menu = {
 
         let i = 0;
 
-        let prev_dir_index = Cmis.preferences.value("previousDirectoryIndex");
+        // Prepare to highlight the last used directory index if Quick Save
+        // is enabled
+        let prev_dir_index = -1;
+        if (Cmis.preferences.value("quickSaveEnabled"))
+            prev_dir_index = Cmis.preferences.value("previousDirectoryIndex");
 
         while (i < items.length) {
             if (items[i].depth < depth[depth.length - 1]) {

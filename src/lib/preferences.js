@@ -40,7 +40,10 @@ Cmis.preferences = {
 
         Services.prefs.addObserver(PREFBRANCH + "directoryList", Cmis.menu, false);
         Services.prefs.addObserver(PREFBRANCH + "itemPlacement", Cmis.menu, false);
+
+        // Observe for highlighting the last used item
         Services.prefs.addObserver(PREFBRANCH + "previousDirectoryIndex", Cmis.menu, false);
+        Services.prefs.addObserver(PREFBRANCH + "quickSaveEnabled", Cmis.menu, false);
 
         Services.obs.addObserver(Cmis.preferences, "addon-options-displayed", false);
     },
