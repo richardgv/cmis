@@ -343,24 +343,29 @@ Cmis.utility = {
             .classes["@mozilla.org/mime;1"]
             .getService(Components.interfaces.nsIMIMEService);
 
-        let suffix = mimeService.getPrimaryExtension(content_type, null);
+        try {
+            let suffix = mimeService.getPrimaryExtension(content_type, null);
 
-        // Goodie goodie gumdrops!
-        if (suffix === "jpe" ||  // Linux FF18 getPrimaryExtension("image/jpeg", null) returns "jpe"
-            suffix === "jpg" ||  // Windows 7 x86_64 FF18 returns "jpg"
-            suffix === "jpeg") { // Windows XP x86_64 FF17.1 returns "jpeg"
-            // In obscure parallel worlds .jpeg is sometimes used as the suffix
-            suffix = "jpe?g";
-        }
-
-        // Check for a correct file suffix
-        if (!name.match(new RegExp("\." + suffix + "$", "i"))) {
-            // If content_type is image/jpeg but the file suffix is missing we append jpg (removing e?)
-            if (suffix === "jpe?g") {
-                suffix = "jpg";
+            // Goodie goodie gumdrops!
+            if (suffix === "jpe" ||  // Linux FF18 getPrimaryExtension("image/jpeg", null) returns "jpe"
+                    suffix === "jpg" ||  // Windows 7 x86_64 FF18 returns "jpg"
+                    suffix === "jpeg") { // Windows XP x86_64 FF17.1 returns "jpeg"
+                // In obscure parallel worlds .jpeg is sometimes used as the suffix
+                suffix = "jpe?g";
             }
 
-            name = name + "." + suffix;
+            // Check for a correct file suffix
+            if (!name.match(new RegExp("\." + suffix + "$", "i"))) {
+                // If content_type is image/jpeg but the file suffix is missing we append jpg (removing e?)
+                if (suffix === "jpe?g") {
+                    suffix = "jpg";
+                }
+
+                name = name + "." + suffix;
+            }
+        }
+        catch (e) {
+            // Sometimes it just fails...
         }
 
         return name;
