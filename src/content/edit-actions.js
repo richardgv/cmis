@@ -32,7 +32,7 @@ official policies, either expressed or implied, of Christopher Hoobin.
 
 Components.utils.import("resource://gre/modules/Services.jsm");
 
-let EditActions = {
+var EditActions = {
     load: function() {
         let item = window.arguments[0].item;
 
